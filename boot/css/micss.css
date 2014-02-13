@@ -1,0 +1,30 @@
+.conten_form{
+	border-top: 1px solid #E1E0E0;
+	border-right: 1px solid #C2C1C1;
+	border-bottom: 1px solid #ADACAC;
+	border-left: 1px solid #C2C1C1;
+	background: #EEEEEE;
+	border-radius: 20px;
+	padding: 10px;
+}
+.row_form{
+	margin: 5px 0 5px 0;
+	padding: 5px 0 5px 0;
+}
+.anch2{
+	display: inline-block;
+	width: 30%;
+	text-align: right;
+}
+.anch5{
+	display: inline-block;
+}
+h3{
+    text-shadow:2px 1px 5px #595B4F;
+}
+.centro{
+	padding-top: 10px;
+	width: 100%;
+	margin: 0 auto 0 auto !important;
+	text-align: center;
+}
