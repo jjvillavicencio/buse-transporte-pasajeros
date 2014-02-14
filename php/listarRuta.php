@@ -34,7 +34,7 @@ if(!isset($bandera)){
 			echo "<td>".$row[3]."</td>";
 			echo "<td>".$row[4]."</td>";
 			echo "<td>".$row[5]."</td>";
-			echo "<td>".$row[6]."</td>";
+			echo "<td>".sprintf("%01.2f",$row[6])."</td>";
 			echo "<td>
 			<a href='actRuta.php?id=".base64_encode($row[0])."'>
 				<i class='icon-pencil'></i>

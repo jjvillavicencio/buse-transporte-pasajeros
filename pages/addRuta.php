@@ -154,7 +154,7 @@ include ("../dll/bloqueDeSeguridad.php");
 														<span> HH: </span>
 														<select name="horaPartida" style="width:55px;" id="hora" >
 															<?php
-															for ($i=6; $i<=23; $i++) {
+															for ($i=0; $i<=23; $i++) {
 																if ($i == date("G"))
 																	echo '<option value="'.$i.'" selected>'.sprintf("%02s",$i).'</option>';
 																else
