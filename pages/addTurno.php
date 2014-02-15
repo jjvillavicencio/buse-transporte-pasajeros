@@ -79,7 +79,7 @@ include ("../dll/bloqueDeSeguridad.php");
 													<select required name="numBus" class="tamauto">
 														<option value="null">Seleccione</option>
 														<?php 
-														$query = "select numBus from bus";
+														$query = "select numBus from bus ORDER BY numBus";
 														$result = mysqli_query($objeConexion->conectarse(), $query) or die(mysqli_error());;
 														while($row = mysqli_fetch_array($result)){
 															?>
@@ -97,18 +97,17 @@ include ("../dll/bloqueDeSeguridad.php");
 												<td>
 													<select required name="idRuta" id="idRuta" size="5" class="tamauto">
 														<?php 
-														$query = "select rutas.idRuta,  c1.nombre AS partida,c2.nombre AS llegada,tipo.nombre AS tipo 
+														$query = "select rutas.idRuta,  c1.nombre AS partida,c2.nombre AS llegada 
 														from rutas
 														INNER JOIN	canton  c1
 														ON rutas.LugarPartida = c1.idCanton 
 														INNER JOIN	canton  c2
-														ON rutas.lugarLlegada = c2.idCanton
-														INNER JOIN tipo";
+														ON rutas.lugarLlegada = c2.idCanton ORDER BY c1.nombre";
 														$result = mysqli_query($objeConexion->conectarse(), $query) or die(mysqli_error());;
 														while($row = mysqli_fetch_array($result)){
 															?>
 															<option value="<?php echo $row[0]; ?>"> 
-																<?php echo $row[1].' - '.$row[2].'('.$row[3].')'; ?> 
+																<?php echo $row[1].' - '.$row[2]; ?> 
 															</option>
 															<?php
 														}

@@ -49,13 +49,52 @@
 	float: left;
 	width: 64%
 }
-.encabezado{
+.encabezado2{
 	border: 2px solid black;
 	text-align: center;
+	width: 700px;
+	margin:5px auto 0 auto;
+
+
+}
+.encabezado2 td{
+	padding-left: 20px;
 }
 .nomEmp{
 	text-align: center;
 }
 .detalles{
 	text-align: center;
+}
+.datos{
+	border: 2px solid black;
+	text-align: center;
+	width: 700px;
+	margin:5px auto 0 auto;
+
+}
+.datos td{
+	padding-left: 20px;
+	text-align: left;
+}
+.detalle{
+	border: 2px solid black;
+	text-align: center;
+	width: 700px;
+	margin:5px auto 0 auto;
+	min-height: 300px;
+
+}
+.botones{
+	text-align: center;
+	width: 700px;
+	margin:5px auto 0 auto;
+
+}
+.detalle td{
+	padding-left: 20px;
+	text-align: left;
+}
+.detalle tfoot{
+	border-top: 2px solid black;
 }

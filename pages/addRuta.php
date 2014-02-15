@@ -188,7 +188,18 @@ include ("../dll/bloqueDeSeguridad.php");
 														</select>
 													</td>
 												</tr>
-												
+												<tr>
+												<td></td>
+												<td>
+													<center>
+														<button class=" btn btn-primary" type="submit"> Guardar </button>
+														<button class="btn btn-danger" type="reset"> Limpiar </button>
+														<input class="btn btn-warning" type="button" name="Cancelar" value="Cancelar" onClick="location.href='../index.php'">
+
+													</center>
+												</td>
+												<td></td>
+											</tr>
 
 											</tbody>
 										</table>

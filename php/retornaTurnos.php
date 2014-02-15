@@ -24,7 +24,7 @@ switch ($opc) {
 			echo "<option value=\"".$row[0]."\">".$row[1]." - ".$row[2]."</option>";
 		}
 	}else{
-		echo '<option value="null" selected="">'.$sql.' </option>';
+		echo '<option value="null" selected="">No hay Turnos </option>';
 
 	}
 	break;

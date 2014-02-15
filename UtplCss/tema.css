@@ -97,7 +97,7 @@ h1{
     text-decoration: none !important;
 }
 .navbar-inner{
-    height: 140px;
+    height: auto;
 }
 .names input, textarea, .uneditable-input {
 width: 340px;

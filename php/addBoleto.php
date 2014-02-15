@@ -1,6 +1,7 @@
 <?php 
 	include("../dll/zonahoraria.php");
 	extract($_POST);
+	extract($_GET);
 	/*Conexion al servidor de mysql*/
 	include ('../dll/conexionsql.php');
 	$fecha=date("Y")."-".date("m")."-".date("d");
@@ -14,19 +15,18 @@ if($totdatos>0){
     	$usuario=$row[0];
     }
 }
-	$sql="insert  into boleto values('','$numFac',$cedula''$idTurno','$asiento')";
+	$sql="insert  into boleto values('','$numFac','$cedula','$idTurno','$asiento')";
 	
 	
 	if($ressql=mysql_query($sql,$con)){
 		if($mas==0){
 			echo "<script> alert('Boleto agregado.');
-			window.location='../pages/genFact.php?numFact=".$numFac."'</script>";}
-			else{
+			window.location='../pages/genFactura.php?numFact=".base64_encode($numFac)."'</script>";
+		}else{
 				echo "<script> alert('Boleto agregado.');
-			window.location='../pages/addBoleto.php?numFact=".$numFac."'</script>";}
-			}
+			window.location='../pages/addBoleto.php?numFact=".$numFac."'</script>";
+		}
 	}else{
-		die();
 		echo "<script> alert('Error. boleto no agregado.');
 		window.location='../pages/addBoleto.php?numFac=<?php $numFac?>'</script>";
 	}

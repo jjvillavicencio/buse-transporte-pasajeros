@@ -2,6 +2,8 @@
 require "../dll/conexion.php";
 $objeConexion = new Conexion();
 extract($_GET);
+extract($_POST);
+$numFac=$numFact;
 $mas=0;
 ?>
 <!DOCTYPE html>
@@ -156,6 +158,7 @@ include ("../dll/bloqueDeSeguridad.php");
 		if(opc==1){
 			alert('hola');
 			document.getElementById("mas").value=1;
+			alert($('#mas').val());
 			document.boleto.submit();
 		}
 
@@ -196,14 +199,14 @@ include ("../dll/bloqueDeSeguridad.php");
 		?>
 		<section id="content">
 			<div id="padre" class="limpiar">
-				<form class="form-horizontal" name="boleto" action="../php/addBoleto.php?numFac=<?php $numFac?>" method="POST">
+				<form class="form-horizontal" name="boleto" action="../php/addBoleto.php?numFac=<?php echo $numFac; ?>" method="POST">
 					<h2>Nuevo Boleto</h2>
 					<div class="bloque limpiar">
 						<table >
 							<tbody >
 								<tr>
 									<td><label>Cédula:</label></td>
-									<td class="peq15"><input type="text" id="cod" name="cedula" size="10" value="<?php if(isset($ced)){echo $ced;}else{echo'';} ?>"></td>
+									<td class="peq15"><input type="text" id="cod" name="cedula" size="10" value="<?php if(isset($cedula)){echo $cedula;}else{echo'';} ?>"></td>
 									<td><input type="button" value="Buscar" id="botonCalcular" onClick="();"></td>
 								</tr>
 								<tr>
@@ -229,7 +232,9 @@ include ("../dll/bloqueDeSeguridad.php");
 									<td class="peq15"><input type="text" disabled="true" id="c6"></td>
 								</tr>
 								<tr>
-								<input type="hidden" disabled="true" id="mas" value=<?php echo $mas; ?>></td>
+								<td>
+								<input type="hidden"  id="mas" name="mas" value="<?php echo $mas; ?>">
+								</td>
 								</tr>
 
 							</tbody>
@@ -319,9 +324,7 @@ include ("../dll/bloqueDeSeguridad.php");
 									<td style="margin: 20px 0 0 0 !important; heigth:50px;">
 										<center><button class=" btn btn-primary" type="submit"> Generar Factura </button>
 											<button class="btn btn-danger" type="reset" onclick="enviar(1);"> Agregar otro Boleto </button>
-											<button class="btn btn-danger" type="reset"> Limpiar </button>
-											<input class="btn btn-warning" type="button" name="Cancelar" value="Cancelar" onClick="location.href='../index.php'">
-
+											<button class="btn btn-warning" type="reset"> Limpiar </button>
 										</center></td>
 									</tr>
 								</tbody>

@@ -10,7 +10,7 @@
                 <div class="nav-collapse">
                     <ul class="nav menu">
                         <li><a href="addAgencia.php">Agencia</a></li>
-                        <li><a href="addBoleto.php">Nuevo Boleto</a></li>
+                        <!-- <li><a href="addBoleto.php">Nuevo Boleto</a></li> -->
                         <li><a href="addBus.php">Bus</a></li>
                         <li><a href="addSocio.php">Socio</a></li>
                         <li><a href="addLocali.php">Localización</a></li>
