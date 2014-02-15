@@ -14,15 +14,20 @@ if($totdatos>0){
     	$usuario=$row[0];
     }
 }
-	$sql="insert  into boleto values('','$cedula','$fecha','$hora','$idTurno','$agencia','$usuario','$asiento')";
+	$sql="insert  into boleto values('','$numFac',$cedula''$idTurno','$asiento')";
 	
 	
 	if($ressql=mysql_query($sql,$con)){
-		echo "<script> alert('Turno agregado.');
-		window.location='../pages/addBoleto.php'</script>";
+		if($mas==0){
+			echo "<script> alert('Boleto agregado.');
+			window.location='../pages/genFact.php?numFact=".$numFac."'</script>";}
+			else{
+				echo "<script> alert('Boleto agregado.');
+			window.location='../pages/addBoleto.php?numFact=".$numFac."'</script>";}
+			}
 	}else{
 		die();
-		echo "<script> alert('Error. Turno no agregado.');
-		window.location='../pages/addBoleto.php'</script>";
+		echo "<script> alert('Error. boleto no agregado.');
+		window.location='../pages/addBoleto.php?numFac=<?php $numFac?>'</script>";
 	}
 ?>

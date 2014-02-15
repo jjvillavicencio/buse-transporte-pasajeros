@@ -2,7 +2,7 @@
 require "../dll/conexion.php";
 $objeConexion = new Conexion();
 extract($_GET);
-$mas=0;
+$fecha=date("Y")."-".date("m")."-".date("d");
 ?>
 <!DOCTYPE html>
 
@@ -19,19 +19,12 @@ include ("../dll/bloqueDeSeguridad.php");
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="boot/img/favicon.png">
 
-	<title>UTPL|Reserva de Salas|Administrador</title>
+	<title>UTPL|Factura|Administrador</title>
 	<!-- Utpl theme-->
 	<link href="../UtplCss/tema.css" rel="stylesheet">
 	<link href="../UtplCss/internas.css" rel="stylesheet">
-	<link href="../dll/calendario_dw/calendario_dw-estilos.css" rel="stylesheet">
 	<script language="javascript" src="http://code.jquery.com/jquery.js"></script>
-	<script type="text/javascript" src="../dll/calendario_dw/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="../dll/calendario_dw/calendario_dw.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$(".campofecha").calendarioDW();
-		})
-	</script>
+	
 	<script>
 		$(function(){
 
@@ -40,7 +33,7 @@ include ("../dll/bloqueDeSeguridad.php");
         // Crear HTML con las respuestas del servidor
         if(r.c1=='no hay'){
         	alert('no existe el cliente');
-        	window.location='addPersona.php?ced='+$('#cod').val()+'&act=boleto';
+        	window.location='addPersona.php?ced='+$('#cod').val()+'&act=factura';
         }else{
         	document.getElementById("c1").value= r.c1;
         	document.getElementById("c2").value= r.c2;
@@ -94,11 +87,11 @@ include ("../dll/bloqueDeSeguridad.php");
 
     function peticion2(e){
         // Realizar la petición
-        var turno = $("#idTurno").val();        
         var parametros2 = {
-        	variable: turno,
+        	variable: 3,
         	varia:null
         };
+
         var post2 = $.post("../php/retornaTurnos.php?opc=2", parametros2, siRespuesta2, 'json');
 
         /* Registrar evento de la petición (hay mas)
@@ -140,7 +133,6 @@ include ("../dll/bloqueDeSeguridad.php");
 			$("#idCant").change(function () {
 				$("#idCant option:selected").each(function () {
 					elegido=$(this).val();
-					alert(elegido);
 					fecha= $('#fecha').val();
 
 					$.post("../php/retornaTurnos.php?opc=1", { elegido: elegido, fecha: fecha }, function(data){
@@ -151,16 +143,7 @@ include ("../dll/bloqueDeSeguridad.php");
 
 		});
 </script>
-<script>
-	function enviar(opc){
-		if(opc==1){
-			alert('hola');
-			document.getElementById("mas").value=1;
-			document.boleto.submit();
-		}
 
-	}
-</script>
 
 </head>
 
@@ -177,7 +160,7 @@ include ("../dll/bloqueDeSeguridad.php");
 			</div>
 			<div class="tituloPag" id="clickeable" onclick="location.href='../index.php';" style="cursor:pointer;">
 				<h1 > 
-					Emitir Boleto
+					Factura
 				</h1>
 			</div>
 		</section>
@@ -196,19 +179,25 @@ include ("../dll/bloqueDeSeguridad.php");
 		?>
 		<section id="content">
 			<div id="padre" class="limpiar">
-				<form class="form-horizontal" name="boleto" action="../php/addBoleto.php?numFac=<?php $numFac?>" method="POST">
-					<h2>Nuevo Boleto</h2>
-					<div class="bloque limpiar">
+				<form class="form-horizontal" name="Socio" action="../php/factura.php?fecha=<?php echo base64_encode($fecha)?>" method="POST">
+					<h2>Nueva Factura</h2>
+					<div class="bloqueFactura limpiar">
 						<table >
 							<tbody >
 								<tr>
 									<td><label>Cédula:</label></td>
-									<td class="peq15"><input type="text" id="cod" name="cedula" size="10" value="<?php if(isset($ced)){echo $ced;}else{echo'';} ?>"></td>
-									<td><input type="button" value="Buscar" id="botonCalcular" onClick="();"></td>
+									<td class="peq15"><input required type="text" id="cod" name="ced" size="10" value="<?php if(isset($ced)){echo $ced;}else{echo'';} ?>"></td>
+									<td><input type="button" value="Buscar" id="botonCalcular" onClick="();" ></td>
+								</tr>
+								<tr>
+									<td>N° de Factura:</td>
+									<td class="peq15"><input required type="text" name="numFac" id="numFac"  onkeypress="return justNumbers(event);"></td>
 								</tr>
 								<tr>
 									<td>N° Cédula:</td>
 									<td class="peq15"><input type="text" name="cedCli" id="c1" disabled="true"></td>
+									<td><label for="">Fecha:</label></td>
+									<td class="peq15"><input type="text" name="fecha" id="fecha" value="<?php echo $fecha;?>" size="12" disabled="true"></td>
 								</tr>
 								<tr>
 									<td><label for="nomCli">Nombre:</label></td>
@@ -228,112 +217,37 @@ include ("../dll/bloqueDeSeguridad.php");
 									<td><label>Correo:</label></td>
 									<td class="peq15"><input type="text" disabled="true" id="c6"></td>
 								</tr>
-								<tr>
-								<input type="hidden" disabled="true" id="mas" value=<?php echo $mas; ?>></td>
-								</tr>
-
-							</tbody>
-						</table>
-					</div>
-					<div class="bloque limpiar">
-						<table>
-							<tbody>
-								<tr>
-									<td><label for="">Fecha del Turno:</label></td>
-									<td class="peq15"><input type="text" name="fecha" id="fecha"class="campofecha" size="12"></td>
-									<td><label>Pais:</label></td>
-									<td class="peq15">
-										<select id="idpais">
-											<option value="null">Seleccione</option>
-											<?php 
-											$query = "select * from pais";
-											$result = mysqli_query($objeConexion->conectarse(), $query) or die(mysqli_error());;
-											while($row = mysqli_fetch_array($result)){
-												?>
-												<option value="<?php echo $row["idPais"]; ?>"> 
-													<?php echo $row["Nombre"]; ?> 
-												</option>
-												<?php
-											}
-											?>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td><label>Provincia:</label></td>
-									<td class="peq15">
-										<select id="idProv">
-											<option></option>
-										</select>
-									</td>
-									<td><label>Ciudad:</label></td>
-									<td class="peq15">
-										<select id="idCant">
-											<option></option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td><label for="idTurno">Turno:</label></td>
-									<td class="peq15">
-										<select id="idTurno" name="idTurno">
-											<option selected="true">
-
-											</option>
-										</select>
-									</td>
-									<td><label for="idBus">N° Bus:</label></td>
-									<td class="peq15">
-										<input type="text" name="idBus" id="c7">
-									</td>
-								</tr>
-								<tr>
-									<td><label for="hs">Hora de Salida:</label></td>
-									<td class="peq15"><input type="text" name="hs" id="c8"></td>
-									<td ><label for="idTipo">tipo</label></td>
-									<td class="peq15"><input type="text" name="idTipo" id="c9" disabled="true"></td>
-								</tr>
-								<tr>
-									<td><label for="">Asiento:</label></td>
-									<td class="peq15">
-										<select name="asiento" id="c10">
-											<option></option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td><label for="">Precio:</label></td>
-									<td class="peq15">
-										<input type="text" id="c11">
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-					</div>
-					<div >
-
-						<table style="margin:50px auto 0 auto;">
-							<tbody>
 								<tr >
-									<td style="margin: 20px 0 0 0 !important; heigth:50px;">
-										<center><button class=" btn btn-primary" type="submit"> Generar Factura </button>
-											<button class="btn btn-danger" type="reset" onclick="enviar(1);"> Agregar otro Boleto </button>
+									<td style="margin: 20px 0 0 0 !important; heigth:50px;" colspan="4">
+										<center>
+											<button class=" btn btn-primary" type="submit"> Guardar </button>
 											<button class="btn btn-danger" type="reset"> Limpiar </button>
 											<input class="btn btn-warning" type="button" name="Cancelar" value="Cancelar" onClick="location.href='../index.php'">
 
-										</center></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</form>
-				</div>
+										</center>
+									</td>
+								</tr>
 
-			</section>
-			<script src="../boot/js/bootstrap.min.js"></script>
-		</div>
-		<!--==========================FIN CONTENEDOR============================== -->
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+
+		</section>
+		<script>
+		function justNumbers(e)
+		{
+			var keynum = window.event ? window.event.keyCode : e.which;
+			if ((keynum == 8) || (keynum == 46))
+				return true;
+
+			return /\d/.test(String.fromCharCode(keynum));
+		}
+	</script>
+		<script src="../boot/js/bootstrap.min.js"></script>
+	</div>
+	<!--==========================FIN CONTENEDOR============================== -->
 
 <!-- FOOTER
 	======================================================== -->

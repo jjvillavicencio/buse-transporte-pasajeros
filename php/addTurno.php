@@ -4,7 +4,9 @@
 	include ('../dll/conexionsql.php');
 	list($dia, $mes, $año) = split('[/.-]', $fecha);
 	$fecha=$año."-".$mes."-".$dia;
-	$sql="insert  into turno values('','$numBus','$idRuta','$fecha')";
+	$hora1=$horaPartida.":".$minutosPartida.":00";
+
+	$sql="insert  into turno values('','$numBus','$idRuta','$fecha','$hora1','$idTipo','$valor')";
 	
 	
 	if($ressql=mysql_query($sql,$con)){

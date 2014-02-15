@@ -1,5 +1,6 @@
 <?php
 include("../dll/conexionsql.php");
+
 extract($_POST);
 extract($_GET);
 switch ($opc) {
@@ -14,7 +15,7 @@ switch ($opc) {
 	ON rutas.LugarPartida = c1.idCanton 
 	INNER JOIN	canton  c2
 	ON rutas.lugarLlegada = c2.idCanton
-	WHERE turno.fecha =\"".$fecha."\"";
+	WHERE turno.fecha =\"".$fecha."\" AND c1.idCanton=".$elegido;
 	$ressql=mysql_query($sql,$con);
 	$totdatos=mysql_num_rows($ressql);
 	if($totdatos>0){
@@ -30,12 +31,10 @@ switch ($opc) {
 	case 2:
 		$var=$variable;
 		$var2=$varia;
-		$sql="SELECT turno.numBus,turno.idRuta,turno.fecha,tipo.nombre,rutas.horaSalida AS partida, rutas.valor 
-		FROM turno
-		INNER JOIN rutas 
-		ON turno.idRuta = rutas.idRuta
-		INNER JOIN	tipo
-		ON rutas.idTipo = tipo.idTipo
+		$sql="SELECT turno.numBus,turno.idRuta,turno.fecha,tipo.nombre,turno.horaSalida AS partida, turno.valor 
+		FROM turno 
+		INNER JOIN	tipo 
+		ON turno.tipo = tipo.idTipo 
 		WHERE turno.idTurno =".$var;
 		$ressql=mysql_query($sql,$con);
 		$totdatos=mysql_num_rows($ressql);

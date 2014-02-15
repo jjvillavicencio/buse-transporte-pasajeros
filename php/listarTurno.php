@@ -4,13 +4,15 @@ include("../dll/conexionsql.php");
 extract($_GET);
 if(!isset($bandera)){
 	/*Obtener los datos de db*/
-	$sql="SELECT turno.idTurno,turno.numBus,c1.nombre, c2.nombre, turno.fecha FROM turno
+	$sql="SELECT turno.idTurno,turno.numBus,c1.nombre, c2.nombre, turno.fecha, turno.horaSalida,tipo.nombre,turno.valor FROM turno
 	INNER JOIN rutas
 	ON rutas.idRuta = turno.idRuta
 	INNER JOIN canton c1
 	ON rutas.LugarPartida = c1.idCanton
 	INNER JOIN canton c2
-	ON rutas.lugarLlegada = c2.idCanton";
+	ON rutas.lugarLlegada = c2.idCanton
+	INNER JOIN tipo
+	ON tipo.idTipo = turno.tipo";
 	$ressql=mysql_query($sql,$con);
 	$totdatos=mysql_num_rows($ressql);
 	if($totdatos>0){
@@ -21,6 +23,9 @@ if(!isset($bandera)){
 		echo "<th scope='col'>"."Partida"."</th>";
 		echo "<th scope='col'>"."Llegada"."</th>";
 		echo "<th scope='col'>"."Fecha"."</th>";
+		echo "<th scope='col'>"."Hora Salida"."</th>";
+		echo "<th scope='col'>"."Tipo"."</th>";
+		echo "<th scope='col'>"."Valor"."</th>";
 		echo "<th scope='col'>"."Editar"."</th>";
 		echo "<th scope='col'>"."Eliminar"."</th>";
 		echo "</tr>";
@@ -30,6 +35,9 @@ if(!isset($bandera)){
 			echo "<td>".$row[2]."</td>";
 			echo "<td>".$row[3]."</td>";
 			echo "<td>".$row[4]."</td>";
+			echo "<td>".$row[5]."</td>";
+			echo "<td>".$row[6]."</td>";
+			echo "<td>".sprintf("%01.2f",$row[7])."</td>";
 			echo "<td>
 			<a href='actTurno.php?id=".base64_encode($row[0])."'>
 				<i class='icon-pencil'></i>

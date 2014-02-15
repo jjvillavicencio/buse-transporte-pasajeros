@@ -2,9 +2,7 @@
 	extract($_POST);
 	/*Conexion al servidor de mysql*/
 	include ('../dll/conexionsql.php');
-		$hora1=$horaPartida.":".$minutosPartida.":00";
-		$hora2=$horaLlegada.":".$minutosLlegada.":00";
-	$sql="insert  into rutas values('','$idCant','$idCant2','$hora1','$hora2','$idTipo','$valor')";
+	$sql="insert  into rutas values('','$idCant','$idCant2')";
 	
 	
 	if($ressql=mysql_query($sql,$con)){

@@ -13,6 +13,17 @@
 	min-height: 100px;
 	float: left;
 }
+.bloqueFactura{
+	padding: 25px;
+	width: 49%;
+	height: 500px;
+	min-height: 100px;
+	margin: 0 auto 0 auto;
+	border: 7px dotted #635E5A;
+}
+.bloqueFactura td{
+	padding: 10px;
+}
 .limpiar{
    /* border:   thick solid #000;*/
   overflow: hidden;
@@ -37,4 +48,14 @@
 	/*border:1px solid blue;*/
 	float: left;
 	width: 64%
+}
+.encabezado{
+	border: 2px solid black;
+	text-align: center;
+}
+.nomEmp{
+	text-align: center;
+}
+.detalles{
+	text-align: center;
 }

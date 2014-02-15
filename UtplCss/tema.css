@@ -108,3 +108,6 @@ width: 8em;
 .bloque label{
     margin-left: 10px;
 }
+.tamauto {
+width: auto;
+}

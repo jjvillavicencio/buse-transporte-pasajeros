@@ -146,35 +146,7 @@ include ("../dll/bloqueDeSeguridad.php");
 														</select>
 													</td>
 												</tr>
-												<tr>
-													<td>
-														<label class="control-label">Hora:</label>
-													</td>
-													<td>
-														<span> HH: </span>
-														<select name="horaPartida" style="width:55px;" id="hora" >
-															<?php
-															for ($i=0; $i<=23; $i++) {
-																if ($i == date("G"))
-																	echo '<option value="'.$i.'" selected>'.sprintf("%02s",$i).'</option>';
-																else
-																	echo '<option value="'.$i.'">'.sprintf("%02s",$i).'</option>';
-															}
-															?>
-														</select>
-														<span> MM:</span>
-														<select name="minutosPartida" style="width:65px;" id="minutos" >
-															<?php
-															for ($i=00; $i<=59; $i=$i+10) {
-																if ($i == date("i"))
-																	echo '<option value="'.$i.'" selected>'.sprintf("%02s",$i).'</option>';
-																else
-																	echo '<option value="'.$i.'">'.sprintf("%02s",$i).'</option>';
-															}
-															?>
-														</select>
-													</td>
-												</tr>
+												
 												<tr>
 													<td><p>LLegada:</p></td>
 												</tr>
@@ -216,70 +188,7 @@ include ("../dll/bloqueDeSeguridad.php");
 														</select>
 													</td>
 												</tr>
-												<tr>
-													<td>
-														<label class="control-label">Hora:</label>
-													</td>
-													<td>
-														<span> HH: </span>
-														<select name="horaLlegada" style="width:55px;" id="hora">
-															<?php
-															for ($i=0; $i<=23; $i++) {
-																if ($i == date("G"))
-																	echo '<option value="'.$i.'" selected>'.sprintf("%02s",$i).'</option>';
-																else
-																	echo '<option value="'.$i.'">'.sprintf("%02s",$i).'</option>';
-															}
-															?>
-														</select>
-														<span> MM:</span>
-														<select name="minutosLlegada" style="width:65px;" id="minutos" >
-															<?php
-															for ($i=00; $i<=59; $i=$i+10) {
-																if ($i == date("i"))
-																	echo '<option value="'.$i.'" selected>'.sprintf("%02s",$i).'</option>';
-																else
-																	echo '<option value="'.$i.'">'.sprintf("%02s",$i).'</option>';
-															}
-															?>
-														</select>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<p>Datos:</p>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="control-label">Tipo:</label></td>
-													<td>
-														<select required name="idTipo" id="idTipo">
-															<?php 
-															$query = "select * from tipo";
-															$result = mysqli_query($objeConexion->conectarse(), $query) or die(mysqli_error());;
-															while($row = mysqli_fetch_array($result)){
-																?>
-																<option value="<?php echo $row["0"]; ?>"> 
-																	<?php echo $row["1"]; ?> 
-																</option>
-																<?php
-															}
-															?>
-														</select>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="control-label">Valor:</label></td>
-													<td><input type="text" placeholder="Valor del boleto" name="valor" required onkeypress="return justNumbers(event);"></td>
-												</tr>
-												<tr>
-													<td>
-														<center>
-															<button class=" btn btn-primary" type="submit"> Guardar </button>
-															<button class="btn btn-danger" type="reset"> Limpiar </button>
-														</center>
-													</td>
-												</tr>
+												
 
 											</tbody>
 										</table>
