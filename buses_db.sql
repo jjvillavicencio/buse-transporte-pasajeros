@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2014 a las 18:13:46
+-- Tiempo de generación: 18-02-2014 a las 20:44:46
 -- Versión del servidor: 5.6.11
 -- Versión de PHP: 5.5.3
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `agencia` (
   PRIMARY KEY (`idAgencia`),
   KEY `idCanton` (`idCanton`),
   KEY `rucEmpresa` (`rucEmpresa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `agencia`
@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS `agencia` (
 INSERT INTO `agencia` (`idAgencia`, `idCanton`, `direccion`, `telefono`, `rucEmpresa`) VALUES
 (1, 3, '10 de agosto y av', '25487451', '100000000001'),
 (2, 4, 'Calle 1 y Calle2', '2489658', '100000000001'),
-(3, 16, 'calle2 y calle3', '4789658', '100000000001');
+(3, 16, 'calle2 y calle3', '4789658', '100000000001'),
+(4, 12, 'dir1', '15879', '100000000001');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `boleto` (
   KEY `cedulaCliente` (`cedulaCliente`),
   KEY `idTurno` (`idTurno`),
   KEY `numFactura` (`numFactura`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=109 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=134 ;
 
 --
 -- Volcado de datos para la tabla `boleto`
@@ -77,7 +78,16 @@ INSERT INTO `boleto` (`numBoleto`, `numFactura`, `cedulaCliente`, `idTurno`, `nu
 (105, 2002, '1104892367', 12, 5),
 (106, 2002, '1104892367', 13, 5),
 (107, 2523, '1000000005', 13, 10),
-(108, 2523, '1000000007', 16, 6);
+(108, 2523, '1000000007', 16, 6),
+(109, 8963, '14578965', 18, 5),
+(110, 8963, '1104892367', 18, 4),
+(112, 789, '1104892367', 17, 4),
+(117, 789, '1000000005', 16, 2),
+(118, 741, '1104892367', 16, 8),
+(119, 423, '1000000005', 16, 10),
+(120, 1236, '1104892367', 17, 2),
+(123, 12367, '1104892367', 18, 2),
+(124, 7894, '1104892367', 18, 3);
 
 -- --------------------------------------------------------
 
@@ -185,17 +195,26 @@ CREATE TABLE IF NOT EXISTS `factura` (
   KEY `agencia` (`agencia`),
   KEY `usuario` (`usuario`),
   KEY `idCedula` (`idCedula`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2566 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12368 ;
 
 --
 -- Volcado de datos para la tabla `factura`
 --
 
 INSERT INTO `factura` (`idFactura`, `idCedula`, `agencia`, `usuario`, `fecha`, `hora`, `subTotal`, `iva`, `total`) VALUES
+(231, '1000000005', 1, 1, '2014-02-18', '22:14:00', '0.00', '0.00', '0.00'),
+(423, '1104892367', 1, 1, '2014-02-18', '00:55:45', '0.00', '0.00', '0.00'),
+(741, '1000000005', 1, 1, '2014-02-18', '23:49:42', '0.00', '0.00', '0.00'),
+(789, '1104892367', 1, 1, '2014-02-18', '22:34:22', '0.00', '0.00', '0.00'),
+(1236, '1104892367', 1, 1, '2014-02-18', '12:22:42', '0.00', '0.00', '0.00'),
 (2001, '1104892367', 1, 1, '2014-02-15', '03:34:59', '0.00', '0.00', '0.00'),
 (2002, '1104892367', 1, 1, '2014-02-15', '03:50:17', '0.00', '0.00', '0.00'),
 (2523, '1000000005', 1, 1, '2014-02-15', '04:13:30', '0.00', '0.00', '0.00'),
-(2565, '1000000003', 1, 1, '2014-02-02', '01:00:00', '6.00', '0.72', '6.72');
+(2565, '1000000003', 1, 1, '2014-02-02', '01:00:00', '6.00', '0.72', '6.72'),
+(7894, '1104892367', 1, 1, '2014-02-18', '13:54:03', '0.00', '0.00', '0.00'),
+(7898, '1104892367', 1, 1, '2014-02-18', '14:19:07', '30.00', '3.60', '33.60'),
+(8963, '14578965', 1, 1, '2014-02-17', '12:52:53', '0.00', '0.00', '0.00'),
+(12367, '1104892367', 1, 1, '2014-02-18', '12:24:31', '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -343,6 +362,7 @@ INSERT INTO `persona` (`cedula`, `Nombres`, `Apellidos`, `direccion`, `telefono`
 ('1104961550', 'Vanessa', 'Sotomayor', 'Daniel Alvarez', '2564897', 'vsotomayor@utpl.edu.ec'),
 ('1106090531', 'Macarena', 'Criollo', 'Las Pitas', '4895', 'maki2009@hhg.com'),
 ('1425789634', 'Prueba de factura', 'factura prueba', 'La prueba y factura', '2489654', 'shgagd@factura'),
+('14578965', 'Cliente Prueba', 'prueba', 'Dir prueba', '789456', 'prueba@com'),
 ('1900478213', 'Jackson', 'Masache', 'Daniel Alvarez', '2489654', 'jmasache@utpl.edu.ec');
 
 -- --------------------------------------------------------
@@ -402,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `rutas` (
   KEY `LugarPartida` (`LugarPartida`,`lugarLlegada`),
   KEY `LugarPartida_2` (`LugarPartida`),
   KEY `lugarLlegada` (`lugarLlegada`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `rutas`
@@ -413,6 +433,7 @@ INSERT INTO `rutas` (`idRuta`, `LugarPartida`, `lugarLlegada`) VALUES
 (2, 3, 12),
 (1, 4, 3),
 (6, 5, 16),
+(7, 7, 12),
 (4, 11, 10),
 (5, 14, 4);
 
@@ -440,7 +461,9 @@ INSERT INTO `sesiones` (`idUsuario`, `idSesion`, `idAgencia`) VALUES
 (1, 6, 1),
 (1, 9, 1),
 (1, 12, 1),
-(1, 52, 1);
+(1, 17, 1),
+(1, 52, 1),
+(1, 78, 1);
 
 -- --------------------------------------------------------
 
@@ -504,7 +527,7 @@ CREATE TABLE IF NOT EXISTS `turno` (
   KEY `numBus` (`numBus`),
   KEY `idRuta` (`idRuta`),
   KEY `tipo` (`tipo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Volcado de datos para la tabla `turno`
@@ -519,7 +542,8 @@ INSERT INTO `turno` (`idTurno`, `numBus`, `idRuta`, `fecha`, `horaSalida`, `tipo
 (14, 5, 2, '2014-02-11', '06:00:00', 1, '25.00'),
 (15, 14, 2, '2014-02-11', '15:00:00', 2, '20.00'),
 (16, 5, 4, '2014-02-11', '09:00:00', 2, '3.00'),
-(17, 14, 3, '2014-02-11', '12:00:00', 2, '8.00');
+(17, 14, 3, '2014-02-11', '12:00:00', 2, '8.00'),
+(18, 10, 7, '2014-02-14', '06:50:00', 1, '30.00');
 
 -- --------------------------------------------------------
 

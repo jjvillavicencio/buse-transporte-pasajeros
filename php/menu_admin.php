@@ -20,7 +20,7 @@
                         <li><a href="addTipo.php">Tipo de Viaje</a></li>
                         <li><a href="addUsr.php">Usuario</a></li>
                         <li><a href="factura.php">Factura</a></li>
-                        <!-- <li><a href="buscador.php"><i class="icon-search"></i>Buscador</a></li> -->
+                        <li><a href="buscador.php"><i class="icon-search"></i>Buscador</a></li>
                         <li><a href="../index.php"><i class="icon-home"></i>Inicio</a></li>
                         <li><a  href="../dll/salir.php" style="color:#B32922;"><i class="icon-off"></i>Cerrar sesión</a></li>
                     </ul>

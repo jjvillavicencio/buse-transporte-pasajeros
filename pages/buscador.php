@@ -17,7 +17,7 @@ include ("../dll/bloqueDeSeguridad.php");
 
 <body>
   <!--========================ENCABEZADO================================ -->
-  
+
   <header>
 
     <section class="encabezado">
@@ -46,14 +46,14 @@ include ("../dll/bloqueDeSeguridad.php");
     include ("../php/menu_admin.php");
     ?>
     <form class="form-inline" action="buscador.php" method="post">
-      <label >Evento:</label>
+      <label >N° Cédula:</label>
       <input type="text" name="nomEvt">
       <label >Día:</label>
       <select name="diaB"  style="width:60px">
         <?php
         echo '<option value="0" selected>--</option>';
         for ($i=1; $i<=31; $i++) {
-            echo '<option value="'.$i.'">'.$i.'</option>';
+          echo '<option value="'.$i.'">'.$i.'</option>';
         }
         ?>
       </select>
@@ -82,19 +82,17 @@ include ("../dll/bloqueDeSeguridad.php");
     <div align='center'> 
       <table border='0' class='table table-hover' style='font-size:10px;'> 
         <tr>
-          <th scope='col'>Reservado por:</th>
-          <th scope='col'>Evento:</th>
-          <th scope='col'>Sala</th>
-          <th scope='col'>Fecha Reserva</th>
-          <th scope='col'>Hora Reserva</th>
-          <th scope='col'>Duración</th>
-          <th scope='col'>Capacidad (Personas)</th>
-          <th scope='col'>edificio</th>
-          <th scope='col'>Localización</th>
-          <th scope='col'>Descripción Sala</th>
-          <th scope='col'>Editar</th>
-          <th scope='col'>Eliminar</th>
-          <th scope='col'>Eliminar Repeticiones</th>
+          <th scope='col'>N° Factura:</th>
+          <th scope='col'>CI Cliente:</th>
+          <th scope='col'>Cliente:</th>
+          <th scope='col'>Usuario:</th>
+          <th scope='col'>Agencia venta</th>
+          <th scope='col'>Fecha de Venta</th>
+          <th scope='col'>Hora de Venta</th>
+          <th scope='col'>SubTotal</th>
+          <th scope='col'>IVA</th>
+          <th scope='col'>Total</th>
+          <th scope='col'>Ver</th>
         </tr>
         <?php 
         if (isset($_POST['buscador']) || isset($_GET['pagi'])){
@@ -102,7 +100,7 @@ include ("../dll/bloqueDeSeguridad.php");
             include("../php/listarConsultas.php");
           }
           if(@$_POST['buscador']==2 || isset($_GET['pagi'])){
-             @$pagi = $_GET['pagi'];
+            @$pagi = $_GET['pagi'];
 
 $contar_pagi = (strlen($pagi));    // Contamos el numero de caracteres
 
@@ -116,40 +114,31 @@ include('../dll/conexionsql.php');
 // Contamos los registros totales
 
 $query0 = "SELECT 
-reserva.idReserva,
-reserva.resEvento,
-reserva.resResponsable,
-reserva.resExtension,
-reserva.resUnidad,
-reserva.resFecha,
-reserva.resH,
-reserva.resM,
-reserva.resDurH,
-reserva.resDurM,
-reserva.idEdificio,
-reserva.idSalas,
-reserva.idRepeticion,
-reserva.resTipo,
-salas.salNombre,
-salas.salCapacidad,
-salas.idEdificio,
-salas.sallocalizacion,
-salas.salDescripcion,
-edificio.idEdificio,
-edificio.edfNombre
+factura.idFactura,
+factura.idCedula,
+persona.Nombres,
+persona.Apellidos,
+agencia.direccion,
+factura.usuario,
+factura.fecha,
+factura.hora,
+factura.subTotal,
+factura.iva,
+factura.total
 from
-reserva
-inner join
-salas ON reserva.idSalas = salas.idSalas
-inner join
-        edificio ON reserva.idEdificio = edificio.idEdificio ORDER BY STR_TO_DATE( reserva.resFecha, '%d-%m-%Y' ) desc";
-             // Esta linea hace la consulta
-        $result0 = mysql_query($query0); 
-        $numero_registros0 = mysql_num_rows($result0); 
+factura
+INNER JOIN persona
+ON persona.cedula = factura.idCedula
+INNER JOIN agencia
+ON agencia.idAgencia = factura.agencia
+ORDER BY STR_TO_DATE( factura.fecha, '%d-%m-%Y' ) desc";
+// Esta linea hace la consulta
+$result0 = mysql_query($query0); 
+$numero_registros0 = mysql_num_rows($result0); 
 
 ##############################################
 // ----------------------------- Pagina anterior
-        $prim_reg_an = $numer_reg - $pagi;
+$prim_reg_an = $numer_reg - $pagi;
 $prim_reg_ant = abs($prim_reg_an);        // Tomamos el valor absoluto
 
 if ($pagi <> 0) 
@@ -180,99 +169,71 @@ if ($contar_pagi > 0)
 // Si recibimos un valor por la variable $page ejecutamos esta consulta
 
   $query = "SELECT 
-reserva.idReserva,
-reserva.resEvento,
-reserva.resResponsable,
-reserva.resExtension,
-reserva.resUnidad,
-reserva.resFecha,
-reserva.resH,
-reserva.resM,
-reserva.resDurH,
-reserva.resDurM,
-reserva.idEdificio,
-reserva.idSalas,
-reserva.idRepeticion,
-reserva.resTipo,
-salas.salNombre,
-salas.salCapacidad,
-salas.idEdificio,
-salas.sallocalizacion,
-salas.salDescripcion,
-edificio.idEdificio,
-edificio.edfNombre
+factura.idFactura,
+factura.idCedula,
+persona.Nombres,
+persona.Apellidos,
+agencia.direccion,
+factura.usuario,
+factura.fecha,
+factura.hora,
+factura.subTotal,
+factura.iva,
+factura.total
 from
-reserva
-inner join
-salas ON reserva.idSalas = salas.idSalas
-inner join
-        edificio ON reserva.idEdificio = edificio.idEdificio ORDER BY STR_TO_DATE( reserva.resFecha, '%d-%m-%Y' ) desc LIMIT $pagi,$numer_reg";
+factura
+INNER JOIN persona
+ON persona.cedula = factura.idCedula
+INNER JOIN agencia
+ON agencia.idAgencia = factura.agencia
+ORDER BY STR_TO_DATE( factura.fecha, '%d-%m-%Y' ) desc LIMIT $pagi,$numer_reg";
 } 
 else 
 { 
 // Si NO recibimos un valor por la variable $page ejecutamos esta consulta
 
   $query = "SELECT 
-reserva.idReserva,
-reserva.resEvento,
-reserva.resResponsable,
-reserva.resExtension,
-reserva.resUnidad,
-reserva.resFecha,
-reserva.resH,
-reserva.resM,
-reserva.resDurH,
-reserva.resDurM,
-reserva.idEdificio,
-reserva.idSalas,
-reserva.idRepeticion,
-reserva.resTipo,
-salas.salNombre,
-salas.salCapacidad,
-salas.idEdificio,
-salas.sallocalizacion,
-salas.salDescripcion,
-edificio.idEdificio,
-edificio.edfNombre
+factura.idFactura,
+factura.idCedula,
+persona.Nombres,
+persona.Apellidos,
+agencia.direccion,
+factura.usuario,
+factura.fecha,
+factura.hora,
+factura.subTotal,
+factura.iva,
+factura.total
 from
-reserva
-inner join
-salas ON reserva.idSalas = salas.idSalas
-inner join
-        edificio ON reserva.idEdificio = edificio.idEdificio ORDER BY STR_TO_DATE( reserva.resFecha, '%d-%m-%Y' ) desc LIMIT 0,$numer_reg";
+factura
+INNER JOIN persona
+ON persona.cedula = factura.idCedula
+INNER JOIN agencia
+ON agencia.idAgencia = factura.agencia
+ORDER BY STR_TO_DATE( factura.fecha, '%d-%m-%Y' ) desc LIMIT 0,$numer_reg";
 } 
-
 $result = mysql_query($query); 
 $numero_registros = mysql_num_rows($result); 
 
 while ($registro = mysql_fetch_array($result)){ 
   echo " 
   <tr> 
-    <td>".$registro['resResponsable']."</td> 
-    <td>".$registro['resEvento']."</td> 
-    <td>".$registro['salNombre']."</td> 
-    <td>".$registro['resFecha']."</td> 
-    <td>".$registro['resH'].":".$registro['resM']."</td> 
-    <td>".$registro['resDurH'].":".$registro['resDurM']."</td> 
-    <td>".$registro['salCapacidad']."</td> 
-    <td>".$registro['edfNombre']."</td> 
-    <td>".$registro['sallocalizacion']."</td> 
-    <td>".$registro['salDescripcion']."</td>
+    <td>".$registro['idFactura']."</td> 
+    <td>".$registro['idCedula']."</td> 
+    <td>".$registro['Nombres']." ".$registro['Apellidos']."</td> 
+    <td>".$registro['usuario']."</td> 
+    <td>".$registro['direccion']."</td> 
+    <td>".$registro['fecha']."</td> 
+    <td>".$registro['hora']."</td> 
+    <td>".$registro['subTotal']."</td> 
+    <td>".$registro['iva']."</td> 
+    <td>".$registro['total']."</td> 
     <td>
-      <a href='actEvt.php?id=".$registro['idReserva']."'>
+      <a href='visuaFactura.php?numFact=".$registro['idFactura']."&visua=1'>
         <i class='icon-pencil'></i>
       </a>
     </td>
-    <td>
-      <a href='../php/elimEvt.php?id=".$registro['idReserva']."&bandera=1'>
-        <i class='icon-trash'></i>
-      </a>
-    </td>
-    <td>
-      <a href='../php/elimEvt.php?id=".$registro['idRepeticion']."&bandera=2'>
-        <i class='icon-trash'></i>
-      </a>
-    </td> 
+    
 
   </tr> 
   ";  
@@ -294,13 +255,13 @@ echo "
 
 <p align='center'>$pagi_navegacion</p>
 ";
-          }
-        }
+}
+}
 
 
 
 
-       
+
 ?> 
 
 

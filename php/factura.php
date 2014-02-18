@@ -20,9 +20,9 @@ if($totdatos>0){
 	
 	if($ressql=mysql_query($sql,$con)){
 		echo "<script> alert('Factura Creada.');
-		window.location='../pages/addBoleto.php?numFact=".$numFac."&cedula=".$ced."'</script>";
+		window.location='../pages/addBoleto.php?numFact=".base64_encode($numFac)."&cedula=".$ced."'</script>";
 	}else{
 		echo "<script> alert('Error. Factura no creada.');
-		window.location='../pages/addBoleto.php'</script>";
+		window.location='../pages/factura.php'</script>";
 	}
 ?>

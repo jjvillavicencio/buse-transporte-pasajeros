@@ -1,16 +1,44 @@
 <?php 
+include ("../dll/bloqueDeSeguridad.php");
 require "../dll/conexion.php";
 $objeConexion = new Conexion();
-extract($_GET);
+include ("../dll/conexionsql.php");
 extract($_POST);
-$numFac=$numFact;
+extract($_GET);
 $mas=0;
-?>
-<!DOCTYPE html>
+/*Obtener los datos de db*/
+$id=base64_decode($id);
+$numFac=base64_decode($numFac);
+$sql="SELECT b.numBoleto,b.numFactura,b.cedulaCliente, b.idTurno, b.numAsiento, t.fecha, c.idProvincia,p.idPais
+from boleto b
+INNER JOIN turno t
+ON t.idTurno = b.idTurno
+INNER JOIN rutas r
+ON r.idRuta = t.idRuta
+INNER JOIN canton c
+ON c.idCanton = r.LugarPartida
+INNER JOIN provincia p
+ON p.idProvincia = c.idProvincia
+where numBoleto = '$id'";
+$ressql=mysql_query($sql,$con);
+$totdatos=mysql_num_rows($ressql);
+if($totdatos>0){
 
-<?php 
-include ("../dll/bloqueDeSeguridad.php");
-
+	while ($row=mysql_fetch_array($ressql)) {
+		$numBoleto=$row['numBoleto'];
+		$numFactura=$row['numFactura'];
+		$cedulaCliente=$row['cedulaCliente'];
+		$idTurno=$row['idTurno'];
+		$numAsiento=$row['numAsiento'];
+		$fecha=$row['fecha'];
+		$idProvincia=$row['idProvincia'];
+		$idPais=$row['idPais'];
+	}
+list($año, $mes, $dia) = split('[/.-]', $fecha);
+	$fecha=$dia."/".$mes."/".$año;
+}else{
+	echo "No hay datos!!";
+}
 ?>
 
 <html>
@@ -29,6 +57,13 @@ include ("../dll/bloqueDeSeguridad.php");
 	<script language="javascript" src="http://code.jquery.com/jquery.js"></script>
 	<script type="text/javascript" src="../dll/calendario_dw/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="../dll/calendario_dw/calendario_dw.js"></script>
+	<script>
+		$(document).ready(function(){
+			document.getElementById("cod").value= "<?php echo $cedulaCliente ?>";
+			document.getElementById("fecha").value= "<?php echo $fecha ?>";
+			document.getElementById("idpais").value= "<?php echo $idPais ?>";
+		})
+	</script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$(".campofecha").calendarioDW();
@@ -156,7 +191,6 @@ include ("../dll/bloqueDeSeguridad.php");
 	function enviar(opc){
 		if(opc==1){
 			document.getElementById("mas").value=1;
-			
 			document.boleto.submit();
 		}
 
@@ -178,7 +212,7 @@ include ("../dll/bloqueDeSeguridad.php");
 			</div>
 			<div class="tituloPag" id="clickeable" onclick="location.href='../index.php';" style="cursor:pointer;">
 				<h1 > 
-					Emitir Boleto
+					Editar Boleto
 				</h1>
 			</div>
 		</section>
@@ -197,9 +231,9 @@ include ("../dll/bloqueDeSeguridad.php");
 		?>
 		<section id="content">
 			<div id="padre" class="limpiar">
-				<form class="form-horizontal" name="boleto" action="../php/addBoleto.php?numFac=<?php echo $numFac; ?>" method="POST">
-					<h2>Nuevo Boleto</h2>
-					<div class="bloque limpiar">
+				<form class="form-horizontal" name="boleto" action="../php/actBoleto.php?numBol=<?php echo base64_encode($numBoleto); ?>&numFac=<?php echo base64_encode($numFac); ?>" method="POST">
+					<h2>Editar Boleto</h2>
+					<div class="bloque limpiar" style="height:200px;">
 						<table >
 							<tbody >
 								<tr>
@@ -238,7 +272,7 @@ include ("../dll/bloqueDeSeguridad.php");
 							</tbody>
 						</table>
 					</div>
-					<div class="bloque limpiar">
+					<div class="bloque limpiar" style="height:200px;">
 						<table>
 							<tbody>
 								<tr>
@@ -266,7 +300,18 @@ include ("../dll/bloqueDeSeguridad.php");
 									<td><label>Provincia:</label></td>
 									<td class="peq15">
 										<select id="idProv">
-											<option></option>
+											<?php 
+											$query = "select * from provincia where idPais=$idPais";
+											$result = mysqli_query($objeConexion->conectarse(), $query) or die(mysqli_error());;
+											while($row = mysqli_fetch_array($result)){
+												if($row["idProvincia"]==$idProvincia){
+												echo '<option selected value="'.$row["idProvincia"].'">'.$row["nombre"].'</option>';
+												}else{
+												echo '<option  value="'.$row["idProvincia"].'">'.$row["nombre"].'</option>';	
+												}
+
+											}
+											?>
 										</select>
 									</td>
 									<td><label>Ciudad:</label></td>
@@ -320,9 +365,9 @@ include ("../dll/bloqueDeSeguridad.php");
 							<tbody>
 								<tr >
 									<td style="margin: 20px 0 0 0 !important; heigth:50px;">
-										<center><button class=" btn btn-primary" type="submit"> Generar Factura </button>
-											<button class="btn btn-danger" type="reset" onclick="enviar(1);"> Agregar otro Boleto </button>
-											<button class="btn btn-warning" type="reset"> Limpiar </button>
+										<center><button class=" btn btn-primary" type="submit"> Aceptar </button>
+										<input class="btn btn-warning" type="button" name="Cancelar" value="Cancelar" onClick="location.href='../index.php'">
+										<button class="btn btn-warning" type="reset"> Limpiar </button>
 										</center></td>
 									</tr>
 								</tbody>

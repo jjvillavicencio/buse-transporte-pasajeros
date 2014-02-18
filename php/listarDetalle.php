@@ -11,7 +11,7 @@ INNER JOIN tipo tip
 ON t.tipo = tip.idTipo
 INNER JOIN persona per
 ON b.cedulaCliente = per.cedula
-WHERE numFactura=".base64_decode($numFact);
+WHERE numFactura=".$numFact;
 $subTotal=0;
 $iva=1.12;
 $total=0;
@@ -24,10 +24,23 @@ $total=0;
 			echo "<td>".$row[0]."| ".$row[1]."| ".$row[2]." ".$row[3]."| N° Bus: ".$row[4]."| ".$row[5]."| ".$row[6]."| ".$row[7]."| "."</td>";
 			echo "<td>".$row['valor']."</td>";
 			echo "<td>".$row['valor']."</td>";
+			if(!isset($visua)){
+			echo "<td>
+					<a href='actBoleto.php?id=".base64_encode($row[0])."&numFac=".$numFact."'>
+						<i class='icon-pencil'></i>
+					</a>
+				</td>";
+			echo "<td>
+					<a href='../php/listarDetalle.php?id=".base64_encode($row[0])."&bandera=1&numFact=".$numFact."'>
+						<i class='icon-trash'></i>
+					</a>
+				</td>";
+			}
 			$subTotal = $subTotal + $row['valor'];
-	echo "</tr>";	
+			echo "</tr>";	
 	
-}
+			}
+	if(!isset($visua)){
 	$total=$iva*$subTotal;
 	$iva=$total-$subTotal;
 
@@ -35,19 +48,20 @@ $total=0;
 	
 	
 	$ressql=mysql_query($sql2,$con);
+}
 }else{
 	echo "No hay datos!!";
 }
 }else{
 	if($bandera==1){
 		$id=base64_decode($id);
-		$sql="delete from agencia where idAgencia='$id'";
+		$sql="delete from boleto where numBoleto='$id'";
 		if($ressql=mysql_query($sql,$con)){
-			echo "<script>alert ('Agencia eliminada');
-			window.location='../pages/addAgencia.php';</script>";		
+			echo "<script>alert ('Boleto eliminado');
+			window.location='../pages/genFactura.php?numFact=".$numFact."';</script>";		
 		}else{
-			echo "<script>alert ('Error. Agencia no eliminada (En Uso)');
-			window.location='../pages/addAgencia.php';</script>";
+			echo "<script>alert ('Error. Boleto no eliminada (En Uso)');
+			window.location='../pages/genFactura.php?numFact=".$numFact."';</script>";
 		}
 
 	}

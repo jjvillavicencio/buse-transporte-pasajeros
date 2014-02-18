@@ -2,7 +2,7 @@
 include ("../dll/conexionsql.php");
 extract($_GET);
 /*Obtener los datos de db*/
-$sql="SELECT e.Ruc, e.NombreEmpresa, e.Direccion, c.nombre AS Ciudad,pr.nombre AS Provincia,p.nombre AS Pais, e.Telefono, e.PermisoOperacion, per.cedula,per.Nombres, per.Apellidos,per.direccion, per.telefono,per.correo, f.usuario, f.fecha, f.hora FROM empresa e
+$sql="SELECT e.Ruc, e.NombreEmpresa, e.Direccion, c.nombre AS Ciudad,pr.nombre AS Provincia,p.nombre AS Pais, e.Telefono, e.PermisoOperacion, per.cedula,per.Nombres, per.Apellidos,per.direccion, per.telefono,per.correo, f.usuario, f.fecha, f.hora, f.subTotal,f.iva,f.total FROM empresa e
 INNER JOIN agencia
 ON agencia.rucEmpresa = e.Ruc
 INNER JOIN factura f
@@ -16,7 +16,6 @@ ON pr.idPais = p.idPais
 INNER JOIN persona per
 ON per.cedula = f.idCedula
 WHERE f.idFactura=".$numFact;
-
 $ressql=mysql_query($sql,$con);
 $totdatos=mysql_num_rows($ressql);
 if($totdatos>0){
@@ -39,6 +38,9 @@ if($totdatos>0){
 		$usuario=$row['usuario'];
 		$fecha=$row['fecha'];
 		$hora=$row['hora'];
+		$subTotal1=$row['subTotal'];
+		$iva1=$row['iva'];
+		$total1=$row['total'];
 	}
 }else{
 	echo "No hay datos!!";
@@ -151,8 +153,7 @@ include ("../dll/bloqueDeSeguridad.php");
 						<th>Descripcion</th>
 						<th>Valor</th>
 						<th>valor Total</th>
-						<th>Editar</th>
-						<th>Eliminar</th>
+
 					</thead>
 					<tbody>
 
@@ -165,17 +166,17 @@ include ("../dll/bloqueDeSeguridad.php");
 						<tr>
 							<td colspan="2"></td>
 							<td>Sub Total</td>
-							<td><?php echo sprintf("%01.2f",$subTotal); ?></td>
+							<td><?php echo sprintf("%01.2f",$subTotal1); ?></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td>IVA</td>
-							<td><?php echo sprintf("%01.2f",$iva); ?></td>
+							<td><?php echo sprintf("%01.2f",$iva1); ?></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
 							<td>Total</td>
-							<td><?php echo sprintf("%01.2f",$total); ?></td>
+							<td><?php echo sprintf("%01.2f",$total1); ?></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -186,8 +187,9 @@ include ("../dll/bloqueDeSeguridad.php");
 						<td></td>
 						<td>
 							<center>
-								<input class=" btn btn-primary" type="button" value="Aceptar" onClick="window.location='visuaFactura.php?numFact=<?php echo $numFact; ?>&visua=1'"> 
-								<button class="btn btn-danger" type="reset" onclick="window.location='addBoleto.php?numFact=<?php echo $numFact; ?>'"> Agregar otro Boleto </button>
+							<input class=" btn btn-primary" type="button" value="Aceptar" onClick="window.location='../index.php'"> 
+								<input class="btn btn-warning" type="button" name="Cancelar" value="Imprimir" onClick="window.print()">
+
 							</center>
 						</td>
 						<td></td>
